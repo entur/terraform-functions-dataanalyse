@@ -110,8 +110,8 @@ module "advanced_function" {
 
 | Name | Version |
 |------|---------|
-| terraform | >= 1.0 |
-| google | >= 4.0 |
+| terraform | >= 1.3.0 |
+| google | >= 4.47.0 |
 
 ## Providers
 
