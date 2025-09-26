@@ -1,7 +1,7 @@
 
 resource "google_logging_metric" "scheduler_final_failure" {
   project     = module.init.app.project_id
-  name        = "scheduler_final_failure_count"
+  name        = "scheduler_final_failure_count_${local.function_name_safe}"
   description = "Counts Cloud Scheduler jobs that failed after all retries."
   filter = templatefile("${path.module}/templates/alerting_filter.tpl", {
     job_id = "scheduler-${var.function_name}"
@@ -16,13 +16,13 @@ resource "google_logging_metric" "scheduler_final_failure" {
 resource "google_monitoring_alert_policy" "scheduler_final_failure_alert" {
   count                 = var.scheduler != null && length(var.scheduler.alert_notification_channels) > 0 ? 1 : 0
   project               = module.init.app.project_id
-  display_name          = "Cloud Scheduler Final Failure Alert"
+  display_name          = "Cloud Scheduler Final Failure Alert (${var.function_name})"
   combiner              = "OR"
   notification_channels = var.scheduler.alert_notification_channels
   user_labels           = local.labels
 
   conditions {
-    display_name = "Scheduler Final Failure Condition"
+    display_name = "Scheduler Final Failure Condition (${var.function_name})"
     condition_threshold {
       filter = templatefile("${path.module}/templates/alerting_metric_filter.tpl", {
         metric_type = "logging.googleapis.com/user/${google_logging_metric.scheduler_final_failure.name}"
