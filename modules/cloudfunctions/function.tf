@@ -58,6 +58,14 @@ resource "google_cloudfunctions2_function" "function" {
   ]
 }
 
+resource "terraform_data" "distinct_function_trigger_check" {
+  count = local.unique_functions_trigger ? 1 : 0
+  provisioner "local-exec" {
+    command = ">&2 echo 'You may specify either pubsub_trigger or scheduler, not both.'; exit 1"
+  }
+}
+
+
 # Grant Cloud Run Invoker role to the Cloud Scheduler service account if scheduler is enabled
 # Note: Not needed for Pub/Sub triggers as they use event-driven invocation
 resource "google_cloud_run_service_iam_member" "scheduler_invoker" {

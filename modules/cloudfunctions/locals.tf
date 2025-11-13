@@ -10,5 +10,7 @@ locals {
   function_name_safe    = can(regex(local.function_name_compact, "^[a-z]")) ? local.function_name_compact : "f${local.function_name_compact}"
 
   # Location for all resources (function, scheduler, storage)
-  location = var.location
+  location                 = var.location
+  unique_functions_trigger = !(var.pubsub_trigger != null && var.scheduler != null)
 }
+
