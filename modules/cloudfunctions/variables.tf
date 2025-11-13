@@ -35,7 +35,7 @@ variable "function_config" {
     runtime          = optional(string, "python313")
     entry_point      = optional(string, "main")
     memory_bytes     = optional(number, 256 * 1024 * 1024)
-    cpu_count        = optional(string, "1")
+    cpu_count        = optional(number, 1)
     timeout_sec      = optional(number, 1800)
     ingress_settings = optional(string, "ALLOW_ALL")
     description      = optional(string, "Cloud Function deployed via Terraform")
