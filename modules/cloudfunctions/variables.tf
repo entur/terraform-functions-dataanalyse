@@ -70,3 +70,13 @@ variable "labels" {
   type        = map(string)
   default     = {}
 }
+
+variable "pubsub_trigger" {
+  description = "Pub/Sub trigger configuration. Set to null to disable Pub/Sub triggering."
+  type = object({
+    topic_name      = string
+    retry_policy    = optional(string, "RETRY_POLICY_RETRY")
+    service_account = optional(string, null) # If null, uses default SA
+  })
+  default = null
+}

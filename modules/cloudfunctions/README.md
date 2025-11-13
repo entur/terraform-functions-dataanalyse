@@ -5,7 +5,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.3.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >=1.4.0 |
 | <a name="requirement_archive"></a> [archive](#requirement\_archive) | ~>2.3.0 |
 | <a name="requirement_google"></a> [google](#requirement\_google) | >=4.47.0 |
 
@@ -15,6 +15,7 @@
 |------|---------|
 | <a name="provider_archive"></a> [archive](#provider\_archive) | ~>2.3.0 |
 | <a name="provider_google"></a> [google](#provider\_google) | >=4.47.0 |
+| <a name="provider_terraform"></a> [terraform](#provider\_terraform) | n/a |
 
 ## Modules
 
@@ -33,6 +34,7 @@
 | [google_monitoring_alert_policy.scheduler_final_failure_alert](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/monitoring_alert_policy) | resource |
 | [google_storage_bucket.function_source](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket) | resource |
 | [google_storage_bucket_object.source](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket_object) | resource |
+| [terraform_data.distinct_function_trigger_check](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) | resource |
 | [archive_file.source](https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file) | data source |
 
 ## Inputs
@@ -45,6 +47,7 @@
 | <a name="input_function_name"></a> [function\_name](#input\_function\_name) | Name of the Cloud Function (will be prefixed with ent-{app\_id}-{env}) | `string` | n/a | yes |
 | <a name="input_labels"></a> [labels](#input\_labels) | Additional labels to be applied to all resources | `map(string)` | `{}` | no |
 | <a name="input_location"></a> [location](#input\_location) | GCP region/location for all resources (function, scheduler, and storage bucket) | `string` | `"europe-west1"` | no |
+| <a name="input_pubsub_trigger"></a> [pubsub\_trigger](#input\_pubsub\_trigger) | Pub/Sub trigger configuration. Set to null to disable Pub/Sub triggering. | <pre>object({<br/>    topic_name      = string<br/>    retry_policy    = optional(string, "RETRY_POLICY_RETRY")<br/>    service_account = optional(string, null) # If null, uses default SA<br/>  })</pre> | `null` | no |
 | <a name="input_scheduler"></a> [scheduler](#input\_scheduler) | Cloud Scheduler configuration. Set to null to disable scheduling. | <pre>object({<br/>    crontab                     = string<br/>    timezone                    = optional(string, "Europe/Oslo")<br/>    retry_count                 = optional(number, 2)<br/>    backoff_duration_seconds    = optional(number, 300)<br/>    alert_notification_channels = optional(list(string), [])<br/>  })</pre> | `null` | no |
 | <a name="input_source_dir"></a> [source\_dir](#input\_source\_dir) | Path to the source code directory to be deployed | `string` | n/a | yes |
 
