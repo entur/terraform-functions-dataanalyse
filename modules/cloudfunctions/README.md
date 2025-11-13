@@ -15,6 +15,7 @@
 |------|---------|
 | <a name="provider_archive"></a> [archive](#provider\_archive) | ~>2.3.0 |
 | <a name="provider_google"></a> [google](#provider\_google) | >=4.47.0 |
+| <a name="provider_terraform"></a> [terraform](#provider\_terraform) | n/a |
 
 ## Modules
 
@@ -33,6 +34,7 @@
 | [google_monitoring_alert_policy.scheduler_final_failure_alert](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/monitoring_alert_policy) | resource |
 | [google_storage_bucket.function_source](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket) | resource |
 | [google_storage_bucket_object.source](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket_object) | resource |
+| [terraform_data.distinct_function_trigger_check](https://registry.terraform.io/providers/hashicorp/terraform/latest/docs/resources/data) | resource |
 | [archive_file.source](https://registry.terraform.io/providers/hashicorp/archive/latest/docs/data-sources/file) | data source |
 
 ## Inputs
