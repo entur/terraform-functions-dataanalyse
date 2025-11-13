@@ -79,4 +79,10 @@ variable "pubsub_trigger" {
     service_account = optional(string, null) # If null, uses default SA
   })
   default = null
+  validation {
+    condition     = !(var.scheduler != null && var.pubsub_trigger != null)
+    error_message = "Cannot configure both scheduler and pubsub_trigger. Please choose one."
+  }
+
+
 }
