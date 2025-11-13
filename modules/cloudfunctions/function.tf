@@ -19,7 +19,7 @@ resource "google_cloudfunctions2_function" "function" {
 
   service_config {
     available_memory      = var.function_config.memory_bytes
-    available_cpu         = var.function_config.cpu_count
+    available_cpu         = tostring(var.function_config.cpu_count)
     timeout_seconds       = var.function_config.timeout_sec
     service_account_email = local.service_account_email
     ingress_settings      = var.function_config.ingress_settings
