@@ -2,12 +2,13 @@
 resource "google_cloud_scheduler_job" "scheduler" {
   count = var.scheduler != null ? 1 : 0
 
-  project     = module.init.app.project_id
-  region      = local.location
-  name        = "scheduler-${var.function_name}"
-  description = "Scheduler for ${var.function_name} Cloud Function"
-  schedule    = var.scheduler.crontab
-  time_zone   = var.scheduler.timezone
+  project          = module.init.app.project_id
+  region           = local.location
+  name             = "scheduler-${var.function_name}"
+  description      = "Scheduler for ${var.function_name} Cloud Function"
+  schedule         = var.scheduler.crontab
+  time_zone        = var.scheduler.timezone
+  attempt_deadline = "${var.scheduler.attempt_deadline_seconds}s"
 
   http_target {
     http_method = "POST"

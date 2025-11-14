@@ -54,6 +54,7 @@ variable "scheduler" {
     timezone                    = optional(string, "Europe/Oslo")
     retry_count                 = optional(number, 2)
     backoff_duration_seconds    = optional(number, 300)
+    attempt_deadline_seconds    = optional(number, 1800) # 30 minutes default
     alert_notification_channels = optional(list(string), [])
   })
   default = null
