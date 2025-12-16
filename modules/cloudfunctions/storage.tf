@@ -1,6 +1,6 @@
 # Create GCS bucket for storing function source code
 resource "google_storage_bucket" "function_source" {
-  name                        = "${var.function_name}-source"
+  name                        = "${var.function_name}-${var.env}-source"
   project                     = module.init.app.project_id
   location                    = local.location
   force_destroy               = true
