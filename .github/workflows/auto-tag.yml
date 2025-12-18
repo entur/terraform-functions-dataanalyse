@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - 'modules/cloudfunctions/**/*.tf'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -14,7 +15,7 @@ permissions:
 
 jobs:
   version-management:
-    if: github.event.pull_request.merged == true
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -25,8 +26,13 @@ jobs:
       - name: Get branch name
         id: branch
         run: |
-          branch_name="${{ github.event.pull_request.head.ref }}"
-          echo "PR source branch: $branch_name"
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            branch_name="fix/manual-trigger"
+            echo "Manual trigger -> patch bump"
+          else
+            branch_name="${{ github.event.pull_request.head.ref }}"
+            echo "PR source branch: $branch_name"
+          fi
           echo "branch_name=$branch_name" >> $GITHUB_OUTPUT
 
       - name: Calculate version
@@ -34,8 +40,11 @@ jobs:
         run: |
           set -e  # Exit on error
 
-          # Get the latest tag
-          latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          # Get the latest semantic version tag (vX.Y.Z format, not moving tags like v1)
+          latest_tag=$(git tag --list 'v*.*.*' --sort=-v:refname | head -1)
+          if [ -z "$latest_tag" ]; then
+            latest_tag="v0.0.0"
+          fi
           echo "Current latest tag: $latest_tag"
 
           # Parse version components
