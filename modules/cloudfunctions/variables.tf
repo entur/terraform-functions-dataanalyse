@@ -32,13 +32,16 @@ variable "function_config" {
   description = "Cloud Function configuration including runtime, resources, environment variables, and secrets"
   type = object({
     # Function runtime and resources
-    runtime          = optional(string, "python313")
-    entry_point      = optional(string, "main")
-    memory_bytes     = optional(number, 256 * 1024 * 1024)
-    cpu_count        = optional(number, 1)
-    timeout_sec      = optional(number, 1800)
-    ingress_settings = optional(string, "ALLOW_ALL")
-    description      = optional(string, "Cloud Function deployed via Terraform")
+    runtime                          = optional(string, "python313")
+    entry_point                      = optional(string, "main")
+    memory_bytes                     = optional(number, 256 * 1024 * 1024)
+    cpu_count                        = optional(number, 1)
+    timeout_sec                      = optional(number, 1800)
+    ingress_settings                 = optional(string, "ALLOW_ALL")
+    max_instance_count               = optional(number, 100)
+    min_instance_count               = optional(number, 0)
+    max_instance_request_concurrency = optional(number, 1)
+    description                      = optional(string, "Cloud Function deployed via Terraform")
 
     # Environment configuration
     environment_variables = optional(map(string), {})

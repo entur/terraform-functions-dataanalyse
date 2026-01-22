@@ -18,11 +18,14 @@ resource "google_cloudfunctions2_function" "function" {
   }
 
   service_config {
-    available_memory      = var.function_config.memory_bytes
-    available_cpu         = tostring(var.function_config.cpu_count)
-    timeout_seconds       = var.function_config.timeout_sec
-    service_account_email = local.service_account_email
-    ingress_settings      = var.function_config.ingress_settings
+    available_memory                 = var.function_config.memory_bytes
+    available_cpu                    = tostring(var.function_config.cpu_count)
+    timeout_seconds                  = var.function_config.timeout_sec
+    service_account_email            = local.service_account_email
+    ingress_settings                 = var.function_config.ingress_settings
+    max_instance_count               = var.function_config.max_instance_count
+    min_instance_count               = var.function_config.min_instance_count
+    max_instance_request_concurrency = var.function_config.max_instance_request_concurrency
 
     # Set environment variables
     environment_variables = var.function_config.environment_variables
