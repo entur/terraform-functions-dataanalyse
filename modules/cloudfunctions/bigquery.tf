@@ -29,7 +29,6 @@ resource "google_bigquery_routine" "remote_function" {
   routine_id      = each.key
   routine_type    = each.value.routine_type
   description     = each.value.description
-  language        = ""
   definition_body = ""
 
   dynamic "arguments" {
