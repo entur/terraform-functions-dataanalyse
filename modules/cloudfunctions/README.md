@@ -27,6 +27,9 @@
 
 | Name | Type |
 |------|------|
+| [google_bigquery_connection.remote_function](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/bigquery_connection) | resource |
+| [google_bigquery_routine.remote_function](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/bigquery_routine) | resource |
+| [google_cloud_run_service_iam_member.bq_remote_function_invoker](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloud_run_service_iam_member) | resource |
 | [google_cloud_run_service_iam_member.scheduler_invoker](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloud_run_service_iam_member) | resource |
 | [google_cloud_scheduler_job.scheduler](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloud_scheduler_job) | resource |
 | [google_cloudfunctions2_function.function](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloudfunctions2_function) | resource |
@@ -42,6 +45,7 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_app_id"></a> [app\_id](#input\_app\_id) | Entur app\_id | `string` | n/a | yes |
+| <a name="input_bigquery_remote_function"></a> [bigquery\_remote\_function](#input\_bigquery\_remote\_function) | BigQuery remote function configuration. Creates a BQ connection, grants invoker access, and creates remote function routines. Set to null to disable. | <pre>object({<br/>    connection_id = string<br/>    location      = optional(string, null)<br/>    routines = map(object({<br/>      dataset_id           = string<br/>      routine_type         = optional(string, "SCALAR_FUNCTION")<br/>      description          = optional(string, "")<br/>      user_defined_context = optional(map(string), {})<br/>      arguments = list(object({<br/>        name      = string<br/>        data_type = string<br/>      }))<br/>      return_type = string<br/>    }))<br/>  })</pre> | `null` | no |
 | <a name="input_env"></a> [env](#input\_env) | Environment prd\|dev\|tst | `string` | n/a | yes |
 | <a name="input_function_config"></a> [function\_config](#input\_function\_config) | Cloud Function configuration including runtime, resources, environment variables, and secrets | <pre>object({<br/>    # Function runtime and resources<br/>    runtime                          = optional(string, "python313")<br/>    entry_point                      = optional(string, "main")<br/>    memory_bytes                     = optional(number, 256 * 1024 * 1024)<br/>    cpu_count                        = optional(number, 1)<br/>    timeout_sec                      = optional(number, 1800)<br/>    ingress_settings                 = optional(string, "ALLOW_ALL")<br/>    max_instance_count               = optional(number, 100)<br/>    min_instance_count               = optional(number, 0)<br/>    max_instance_request_concurrency = optional(number, 1)<br/>    description                      = optional(string, "Cloud Function deployed via Terraform")<br/><br/>    # Environment configuration<br/>    environment_variables = optional(map(string), {})<br/>    gsm_secrets           = optional(map(string), {})<br/>  })</pre> | `{}` | no |
 | <a name="input_function_name"></a> [function\_name](#input\_function\_name) | Name of the Cloud Function (will be prefixed with ent-{app\_id}-{env}) | `string` | n/a | yes |
@@ -55,6 +59,9 @@
 
 | Name | Description |
 |------|-------------|
+| <a name="output_bigquery_connection_name"></a> [bigquery\_connection\_name](#output\_bigquery\_connection\_name) | Full resource name of the BigQuery connection (if created) |
+| <a name="output_bigquery_connection_service_account"></a> [bigquery\_connection\_service\_account](#output\_bigquery\_connection\_service\_account) | Service account email of the BigQuery connection (grant this SA access to Dataform datasets etc.) |
+| <a name="output_bigquery_routine_ids"></a> [bigquery\_routine\_ids](#output\_bigquery\_routine\_ids) | Map of routine key to full resource ID for each BigQuery remote function routine |
 | <a name="output_function_location"></a> [function\_location](#output\_function\_location) | Location/region where the function is deployed |
 | <a name="output_function_name"></a> [function\_name](#output\_function\_name) | Name of the deployed Cloud Function |
 | <a name="output_function_uri"></a> [function\_uri](#output\_function\_uri) | URI of the Cloud Function |
