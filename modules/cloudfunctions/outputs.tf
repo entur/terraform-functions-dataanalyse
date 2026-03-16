@@ -45,5 +45,5 @@ output "bigquery_connection_service_account" {
 
 output "bigquery_routine_ids" {
   description = "Map of routine key to full resource ID for each BigQuery remote function routine"
-  value       = { for k, v in google_bigquery_routine.remote_function : k => v.id }
+  value       = var.bigquery_remote_function != null ? { for k, v in google_bigquery_routine.remote_function : k => v.id } : null
 }
