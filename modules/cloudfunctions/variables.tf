@@ -75,6 +75,26 @@ variable "labels" {
   default     = {}
 }
 
+variable "bigquery_remote_function" {
+  description = "BigQuery remote function configuration. Creates a BQ connection, grants invoker access, and creates remote function routines. Set to null to disable."
+  type = object({
+    connection_id = string
+    location      = optional(string, null)
+    routines = map(object({
+      dataset_id           = string
+      routine_type         = optional(string, "SCALAR_FUNCTION")
+      description          = optional(string, "")
+      user_defined_context = optional(map(string), {})
+      arguments = list(object({
+        name      = string
+        data_type = string
+      }))
+      return_type = string
+    }))
+  })
+  default = null
+}
+
 variable "pubsub_trigger" {
   description = "Pub/Sub trigger configuration. Set to null to disable Pub/Sub triggering."
   type = object({
